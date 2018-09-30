@@ -1,0 +1,23 @@
+{
+  "name": "foosball",
+  "version": "1.0.0",
+  "description": "Foosball Proxy Server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "8.9.1"
+  },
+  "author": "Shen Lin",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.16.3",
+    "http-proxy-middleware": "0.18.0",
+    "passport": "^0.2.2",
+    "passport-facebook": "2.1.1",
+    "cookie-session": "2.0.0-beta.3",
+    "axios": "0.18.0"
+  },
+  "devDependencies": {}
+}
