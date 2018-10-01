@@ -4,7 +4,7 @@ export class StandardRoom extends Room<any> {
     standard: String
 
     onInit (options) {
-        var oMetadata = {name: options.standard, creator: options.clientId};
+        var oMetadata = {name: options.standard, creator: options.creator};
         console.log("StandardRoom created!", options);
         this.setState({metadata: oMetadata});
         this.setMetadata(oMetadata);
