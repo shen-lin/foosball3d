@@ -293,7 +293,8 @@ function run(port) {
 		// process.env.HTTPS === 'true'
 		// ? "https"
 		// : "http";
-	var host = process.env.HOST || 'localhost';
+	var host = '127.0.0.1';
+		// process.env.HOST || '127.0.0.1'
 	setupCompiler(host, port, protocol);
 	runDevServer(host, port, protocol);
 }

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "colyseus.js": "^0.9.13",
     "@material-ui/core": "3.0.3",
     "@material-ui/icons": "3.0.1",
     "axios": "0.18.0",
