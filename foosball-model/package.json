@@ -1,0 +1,16 @@
+{
+  "name": "foosball-model",
+  "version": "1.0.0",
+  "description": "Foosball TypeScript Data Model",
+  "main": "index.ts",
+  "scripts": {},
+  "engines": {
+    "node": "8.9.1"
+  },
+  "author": "Shen Lin",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "2.7.2"
+  }
+}

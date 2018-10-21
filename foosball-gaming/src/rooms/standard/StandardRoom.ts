@@ -1,29 +1,29 @@
-import { Room, Client } from "colyseus";
+import { Room } from "colyseus";
+import { GameState, Player, Room as RoomModel } from "foosball-model";
 
 export class StandardRoom extends Room<any> {
   standard: String;
 
   onInit(options) {
     console.log("StandardRoom created", options);
-    var oState = {
-      step: "NEW_ROOM",
-      players: []
-    };
-    this.setState(oState);
+    let state = new GameState();
+    state.step = "NEW_ROOM";
+    state.players = [];
+    this.setState(state);
 
-    var oMetadata = {
-      name: options.standard,
-      scene: options.scene,
-      mode: options.mode,
-      creator: {
-        client_id: options.clientId,
-        client_session_id: options.sessionId,
-        fb_client_id: options.fb_client_id,
-        fb_client_name: options.fb_client_name
-      }
-    };
-    this.setMetadata(oMetadata);
+    let creator = new Player();
+    creator.client_id = options.clientId;
+    creator.client_session_id = options.sessionId;
+    creator.fb_client_id = options.fb_client_id;
+    creator.fb_client_name = options.fb_client_name;
 
+    let metadata = new RoomModel();
+    metadata.name = options.standard;
+    metadata.scene = options.scene;
+    metadata.mode = options.mode;
+    metadata.creator = creator;
+
+    this.setMetadata(metadata);
     this.standard = options.standard;
   }
 
@@ -32,28 +32,18 @@ export class StandardRoom extends Room<any> {
   }
 
   onJoin(client, options) {
-    console.log(
-      "Player Join ",
-      client.id,
-      client.sessionId,
-      options
-    );
+    console.log("Player Join ", client.id, client.sessionId);
 
-    var player = {
-      client_id: client.id,
-      client_session_id: client.sessionId,
-      fb_client_id: options.fb_client_id,
-      fb_client_name: options.fb_client_name
-    };
+    let player = new Player();
+    player.client_id = client.id;
+    player.client_session_id = client.sessionId;
+    player.fb_client_id = options.fb_client_id;
+    player.fb_client_name = options.fb_client_name;
 
     this.state.players.push(player);
-
     if (this.state.step === "NEW_ROOM") {
       this.state.step = "PLAYER_JOIN";
     }
-
-    // fb_client_id: '10102675149890581',
-    // fb_client_name: 'Shen Lin' },
   }
 
   onLeave(client) {

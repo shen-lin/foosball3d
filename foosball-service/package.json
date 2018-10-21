@@ -1,5 +1,5 @@
 {
-  "name": "foosball",
+  "name": "foosball-service",
   "version": "1.0.0",
   "description": "Foosball Proxy Server",
   "main": "index.js",
