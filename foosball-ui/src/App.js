@@ -21,13 +21,9 @@ class App extends Component {
   getUser() {
     axios.get(`/api/whoami`).then(res => {
       if (res.data !== "Unauthorized") {
-        var sPlayerImageUrl = `http://graph.facebook.com/${
-          res.data.id
-        }/picture`;
         var oPlayer = {
-          id: res.data.id,
-          name: res.data.displayName,
-          image: sPlayerImageUrl
+          fb_client_id: res.data.id,
+          fb_client_name: res.data.displayName
         };
         console.log("Current user: ", oPlayer);
         this.props.dispatch(updatePlayer(oPlayer));
@@ -48,7 +44,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.props.player.id ? <Main /> : <Login />}
+        {this.props.player.fb_client_id ? <Main /> : <Login />}
       </div>
     );
   }
