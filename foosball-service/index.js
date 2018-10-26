@@ -26,7 +26,7 @@ passport.use(
     {
       clientID: '255500021823568',
       clientSecret: '5b135c603602b77edb9d4e153ca4d5c6',
-      callbackURL: `https://${hostname}:9000/api/login/facebook/return`,
+      callbackURL: `https://localhost:9000/api/login/facebook/return`,
     },
     function(accessToken, refreshToken, profile, cb) {
       return cb(null, profile);
@@ -49,7 +49,7 @@ function isUserAuthenticated(req, res, next) {
   if (req.user) {
     next();
   } else {
-    res.send('Unauthorized');
+    res.send(`Unauthorized ${hostname}`);
   }
 } 
 
