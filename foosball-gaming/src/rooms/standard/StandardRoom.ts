@@ -10,7 +10,7 @@ export class StandardRoom extends Room<any> {
     let creator = new Player();
     creator.client_id = options.clientId;
     creator.client_session_id = options.sessionId;
-    creator.fb_client_id = options.fb_client_id.replace("FB", "");;
+    creator.fb_client_id = options.fb_client_id.replace("FB", "");
     creator.fb_client_name = options.fb_client_name;
 
     let metadata = new RoomModel();
@@ -52,12 +52,7 @@ export class StandardRoom extends Room<any> {
   }
 
   onMessage(client, data) {
-    console.log(
-      "Room received message from client session",
-      client.sessionId,
-      ":",
-      data
-    );
+    console.log("Update", client.sessionId, data);
   }
 
   onDispose() {

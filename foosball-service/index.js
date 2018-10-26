@@ -1,6 +1,7 @@
 var express = require('express');
 var proxy = require('http-proxy-middleware');
 var https = require('https');
+var http = require('http');
 var fs = require('fs');
 var app = express();
 var axios = require('axios');
@@ -9,6 +10,7 @@ var axios = require('axios');
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
 var cookieSession = require('cookie-session');
+var httpmode = 'http'; // 'https'
 
 app.use(
   cookieSession({
@@ -22,7 +24,7 @@ passport.use(
     {
       clientID: '255500021823568',
       clientSecret: '5b135c603602b77edb9d4e153ca4d5c6',
-      callbackURL: 'https://localhost:9000/api/login/facebook/return',
+      callbackURL: httpmode + '://localhost:9000/api/login/facebook/return',
     },
     function(accessToken, refreshToken, profile, cb) {
       return cb(null, profile);
@@ -47,22 +49,13 @@ function isUserAuthenticated(req, res, next) {
   } else {
     res.send('Unauthorized');
   }
-}
+} 
 
 app.get('/api/whoami', isUserAuthenticated, function(req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify(req.user));
 });
 
-// app.get('/api/user/:id/pic', isUserAuthenticated, function(req, res) {
-//   var id = req.params.id;
-//   var fbPicReqUrl = `http://graph.facebook.com/${id}/picture`;
-//   console.log(fbPicReqUrl);
-//   axios.get(fbPicReqUrl).then(fbPicRes => {
-//     res.setHeader('Content-Type', 'application/octet-stream');
-//     res.send(fbPicRes.data);
-//   });
-// });
 
 app.get('/api/login/facebook', passport.authenticate('facebook'));
 
@@ -76,7 +69,7 @@ app.get(
 
 // Proxying
 var restOptions = {
-  target: 'https://localhost:9000',
+  target: httpmode + '://localhost:9000',
   changeOrigin: true,
   ws: false,
 };
@@ -84,7 +77,7 @@ var restProxy = proxy(restOptions);
 app.use('/rest', restProxy);
 
 var uiOptions = {
-  target: 'https://localhost:3000',
+  target: httpmode + '://localhost:3000',
   changeOrigin: true,
   ws: false,
   secure: false,
@@ -93,14 +86,21 @@ var uiProxy = proxy(uiOptions);
 app.use('/', uiProxy);
 
 // Https
-var httpsProxyServer = https.createServer(
-  {
-    key: fs.readFileSync('host.key'),
-    cert: fs.readFileSync('host.cert'),
-  },
-  app,
-);
+var httpProxyServer;
 
-httpsProxyServer.listen(9000, '0.0.0.0', function() {
-  console.log('Goto  https://localhost:9000/');
+if (httpmode === 'https') {
+  httpProxyServer = https.createServer(
+    {
+      key: fs.readFileSync('host.key'),
+      cert: fs.readFileSync('host.cert'),
+    },
+    app,
+  );
+} else {
+  httpProxyServer = http.createServer(app);
+}
+
+
+httpProxyServer.listen(9000, '0.0.0.0', function() {
+  console.log(httpmode + '://localhost:9000/');
 });
