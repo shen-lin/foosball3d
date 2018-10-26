@@ -5,6 +5,8 @@ var http = require('http');
 var fs = require('fs');
 var app = express();
 var axios = require('axios');
+var os = require("os");
+var hostname = os.hostname();
 
 // Facebook oauth
 var passport = require('passport');
@@ -24,7 +26,7 @@ passport.use(
     {
       clientID: '255500021823568',
       clientSecret: '5b135c603602b77edb9d4e153ca4d5c6',
-      callbackURL: httpmode + '://localhost:9000/api/login/facebook/return',
+      callbackURL: `https://${hostname}:9000/api/login/facebook/return`,
     },
     function(accessToken, refreshToken, profile, cb) {
       return cb(null, profile);
@@ -69,7 +71,7 @@ app.get(
 
 // Proxying
 var restOptions = {
-  target: httpmode + '://localhost:9000',
+  target: `${httpmode}://localhost:9000`,
   changeOrigin: true,
   ws: false,
 };
@@ -77,7 +79,7 @@ var restProxy = proxy(restOptions);
 app.use('/rest', restProxy);
 
 var uiOptions = {
-  target: httpmode + '://localhost:3000',
+  target: `${httpmode}://localhost:3000`,
   changeOrigin: true,
   ws: false,
   secure: false,
@@ -102,5 +104,5 @@ if (httpmode === 'https') {
 
 
 httpProxyServer.listen(9000, '0.0.0.0', function() {
-  console.log(httpmode + '://localhost:9000/');
+  console.log(`${httpmode}://localhost:9000/`);
 });
