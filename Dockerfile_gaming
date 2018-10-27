@@ -16,6 +16,6 @@ COPY ./foosball-gaming/package.json ./package.json
 RUN npm install
 COPY ./foosball-gaming/ ./
 
-EXPOSE 443
+EXPOSE 7000
 
 CMD [ "npm", "run", "start" ]
