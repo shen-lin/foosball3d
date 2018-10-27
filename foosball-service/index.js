@@ -5,14 +5,16 @@ var http = require('http');
 var fs = require('fs');
 var app = express();
 var axios = require('axios');
-var os = require("os");
-var hostname = os.hostname();
 
 // Facebook oauth
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
 var cookieSession = require('cookie-session');
-var httpmode = 'http'; // 'https'
+
+// Use https for local dev with FB oauth. Otherwise use http for cloud deployments.
+const httpmode = process.env.environment ? 'http' : 'https'; 
+const host = process.env.host || 'localhost';
+const port = process.env.environment ? '443': '9000';
 
 app.use(
   cookieSession({
@@ -26,7 +28,7 @@ passport.use(
     {
       clientID: '255500021823568',
       clientSecret: '5b135c603602b77edb9d4e153ca4d5c6',
-      callbackURL: `//api/login/facebook/return`,
+      callbackURL: `${host}:${port}/api/login/facebook/return`,
       proxy: true
     },
     function(accessToken, refreshToken, profile, cb) {
@@ -50,7 +52,7 @@ function isUserAuthenticated(req, res, next) {
   if (req.user) {
     next();
   } else {
-    res.send(`Unauthorized ${hostname}`);
+    res.send(`Unauthorized`);
   }
 } 
 
@@ -70,23 +72,21 @@ app.get(
   },
 );
 
-// Proxying
-var restOptions = {
-  target: `${httpmode}://localhost:9000`,
-  changeOrigin: true,
-  ws: false,
-};
-var restProxy = proxy(restOptions);
-app.use('/rest', restProxy);
 
-var uiOptions = {
-  target: `${httpmode}://localhost:3000`,
-  changeOrigin: true,
-  ws: false,
-  secure: false,
-};
-var uiProxy = proxy(uiOptions);
-app.use('/', uiProxy);
+// When load for local dev, the UI is hosted on the webpack server. Proxy to the static content.
+if (!process.env.environment) {
+  var uiOptions = {
+    target: `https://localhost:3000`,
+    changeOrigin: true,
+    ws: false,
+    secure: false,
+  };
+  var uiProxy = proxy(uiOptions);
+  app.use('/', uiProxy);
+} else {
+  app.use(express.static('../foosball-ui/build'));
+}
+
 
 // Https
 var httpProxyServer;
@@ -104,6 +104,6 @@ if (httpmode === 'https') {
 }
 
 
-httpProxyServer.listen(9000, '0.0.0.0', function() {
-  console.log(`${httpmode}://localhost:9000/`);
+httpProxyServer.listen(port, '0.0.0.0', function() {
+  console.log(`${httpmode}://${host}:${port}/`);
 });

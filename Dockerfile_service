@@ -1,0 +1,33 @@
+FROM node:8
+
+ENV environment QA
+ENV host foosball.cfapps.us30.hana.ondemand.com
+
+
+WORKDIR /usr/src/app/
+
+RUN mkdir foosball-ui
+RUN mkdir foosball-service
+
+WORKDIR /usr/src/app/foosball-ui
+COPY ./foosball-ui/package.json ./package.json
+npm install
+
+WORKDIR /usr/src/app/foosball-service
+COPY ./foosball-service/package.json ./package.json
+npm install
+
+WORKDIR /usr/src/app/foosball-ui
+COPY ./foosball-ui ./foosball-ui
+
+WORKDIR /usr/src/app/foosball-service
+COPY ./foosball-service ./foosball-service
+
+WORKDIR /usr/src/app/foosball-ui
+RUN npm run build
+
+WORKDIR /usr/src/app/foosball-service
+
+EXPOSE 443
+
+CMD [ "npm", "run", "start" ]

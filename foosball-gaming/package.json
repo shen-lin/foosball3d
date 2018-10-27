@@ -15,7 +15,7 @@
     "node": "8.9.1"
   },
   "author": "Shen Lin",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@colyseus/monitor": "^0.1.7",
     "colyseus": "^0.9.17",
