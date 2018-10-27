@@ -17,10 +17,8 @@ WORKDIR /usr/src/app/foosball-service
 COPY ./foosball-service/package.json ./package.json
 RUN npm install
 
-WORKDIR /usr/src/app/foosball-ui
+WORKDIR /usr/src/app/
 COPY ./foosball-ui/ ./foosball-ui/
-
-WORKDIR /usr/src/app/foosball-service
 COPY ./foosball-service/ ./foosball-service/
 
 WORKDIR /usr/src/app/foosball-ui

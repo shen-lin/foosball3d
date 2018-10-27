@@ -8,15 +8,13 @@ WORKDIR /usr/src/app/
 RUN mkdir foosball-model
 RUN mkdir foosball-gaming
 
-
 WORKDIR /usr/src/app/foosball-model
-COPY ./foosball-model/package.json ./package.json
-COPY ./foosball-model/ ./foosball-model/
+COPY ./foosball-model/ ./
 
 WORKDIR /usr/src/app/foosball-gaming
 COPY ./foosball-gaming/package.json ./package.json
 RUN npm install
-COPY ./foosball-service/ ./foosball-service/
+COPY ./foosball-gaming/ ./
 
 EXPOSE 443
 
