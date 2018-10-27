@@ -28,7 +28,7 @@ passport.use(
     {
       clientID: '255500021823568',
       clientSecret: '5b135c603602b77edb9d4e153ca4d5c6',
-      callbackURL: `${host}:${port}/api/login/facebook/return`,
+      callbackURL: `${httpmode}://${host}:${port}/api/login/facebook/return`,
       proxy: true
     },
     function(accessToken, refreshToken, profile, cb) {
