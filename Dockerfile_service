@@ -18,10 +18,10 @@ COPY ./foosball-service/package.json ./package.json
 RUN npm install
 
 WORKDIR /usr/src/app/foosball-ui
-COPY ./foosball-ui ./foosball-ui
+COPY ./foosball-ui/ ./foosball-ui/
 
 WORKDIR /usr/src/app/foosball-service
-COPY ./foosball-service ./foosball-service
+COPY ./foosball-service/ ./foosball-service/
 
 WORKDIR /usr/src/app/foosball-ui
 RUN npm run build

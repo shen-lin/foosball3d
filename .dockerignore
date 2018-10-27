@@ -1,7 +1,7 @@
-node_modules
-npm-debug.log
-package-lock.json
+foosball-ui/node_modules
+foosball-gaming/node_modules
+foosball-service/node_modules
+foosball-model/node_modules
 
-**/node_modules
 **/npm-debug.log
 **/package-lock.json
