@@ -5,8 +5,9 @@ import { Server } from "colyseus";
 import { monitor } from "@colyseus/monitor";
 import * as WebSocket from "ws";
 import { StandardRoom } from "./rooms/standard/StandardRoom";
+import { CLIENT_RENEG_WINDOW } from "tls";
 
-const port = process.env.environment ? 433 : 7000;
+const port = 7000;
 
 const gameServer = new Server({
   engine: WebSocket.Server,
