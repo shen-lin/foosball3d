@@ -11,11 +11,11 @@ RUN mkdir foosball-service
 
 WORKDIR /usr/src/app/foosball-ui
 COPY ./foosball-ui/package.json ./package.json
-npm install
+RUN npm install
 
 WORKDIR /usr/src/app/foosball-service
 COPY ./foosball-service/package.json ./package.json
-npm install
+RUN npm install
 
 WORKDIR /usr/src/app/foosball-ui
 COPY ./foosball-ui ./foosball-ui
