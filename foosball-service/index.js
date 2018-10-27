@@ -24,11 +24,12 @@ app.use(
 );
 
 passport.use(
+  // FB only accepts https callback url.
   new Strategy(
     {
       clientID: '255500021823568',
       clientSecret: '5b135c603602b77edb9d4e153ca4d5c6',
-      callbackURL: `${httpmode}://${host}:${port}/api/login/facebook/return`,
+      callbackURL: `https://${host}:${port}/api/login/facebook/return`,
       proxy: true
     },
     function(accessToken, refreshToken, profile, cb) {
