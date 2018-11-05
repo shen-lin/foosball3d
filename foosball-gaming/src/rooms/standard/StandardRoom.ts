@@ -1,11 +1,13 @@
 import { Room } from "colyseus";
 import { GameState, Player, Room as RoomModel } from "foosball-model";
-
+import MessageHandler from "./MessageHandler";
 export class StandardRoom extends Room<any> {
   standard: String;
+  msgHandler: MessageHandler;
 
   onInit(options) {
     console.log("StandardRoom created", options);
+    this.msgHandler = new MessageHandler();
 
     let creator = new Player();
     creator.client_id = options.clientId;
@@ -53,6 +55,7 @@ export class StandardRoom extends Room<any> {
 
   onMessage(client, data) {
     console.log("Update", client.sessionId, data);
+    this.msgHandler.handleMessage(client, data, this.state);
   }
 
   onDispose() {
