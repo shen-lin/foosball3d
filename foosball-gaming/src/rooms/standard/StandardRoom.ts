@@ -1,9 +1,12 @@
 import { Room } from "colyseus";
 import { GameState, Player, Room as RoomModel } from "foosball-model";
 import MessageHandler from "./MessageHandler";
+import PhysicsEngine from "./PhysicsEngine";
+
 export class StandardRoom extends Room<any> {
   standard: String;
   msgHandler: MessageHandler;
+  engine: PhysicsEngine;
 
   onInit(options) {
     console.log("StandardRoom created", options);
@@ -29,6 +32,9 @@ export class StandardRoom extends Room<any> {
 
     this.setMetadata(metadata);
     this.standard = options.standard;
+
+    this.engine = new PhysicsEngine();
+    this.engine.start();
   }
 
   requestJoin(options) {
