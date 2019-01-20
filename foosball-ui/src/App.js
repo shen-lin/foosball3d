@@ -18,6 +18,15 @@ class App extends Component {
     window.addEventListener("load", this.onLoad.bind(this));
   }
 
+
+  getTestUser() {
+    var oPlayer = {
+      fb_client_id: '00000001',
+      fb_client_name: 'Tester'
+    };
+    this.props.dispatch(updatePlayer(oPlayer));
+  }
+
   getUser() {
     axios.get(`/api/whoami`).then(res => {
       if (res.data !== "Unauthorized") {
@@ -38,7 +47,8 @@ class App extends Component {
         : (window.location.hash = "");
     }
 
-    this.getUser();
+    // this.getUser();
+    this.getTestUser();
   }
 
   render() {
