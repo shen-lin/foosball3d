@@ -1,6 +1,6 @@
 import {World, Vec3, Body, Plane, Sphere} from "cannon";
 
-export default class PhysicsEngine {
+export default class {
   world: World;
   ballShape : Sphere;
   ballBody : Body;
@@ -43,3 +43,4 @@ export default class PhysicsEngine {
 
   stop() {}
 }
+
