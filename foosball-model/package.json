@@ -2,8 +2,17 @@
   "name": "foosball-model",
   "version": "1.0.0",
   "description": "Foosball TypeScript Data Model",
-  "main": "index.ts",
-  "scripts": {},
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "package.json",
+    "*.md"
+  ],
+  "scripts": {
+    "build": "node ./node_modules/typescript/bin/tsc"
+  },
   "engines": {
     "node": "8.9.1"
   },
@@ -11,6 +20,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "typescript": "2.7.2"
+    "typescript": "2.7.2",
+    "ts-node": "^5.0.1"
   }
 }
